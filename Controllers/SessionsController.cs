@@ -69,54 +69,32 @@ namespace SportsBookings.Controllers
             return await _context.tb_Facilities.ToListAsync();
         }
 
-        // GET: api/Sessions/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CountryInformation>> GetCountryInformation(int id)
+        [HttpGet]
+        [Route("OpeningHours")]
+        public async Task<ActionResult<IEnumerable<OpeningHours>>> GetOpeningHours()
         {
-          if (_context.tb_Country == null)
-          {
-              return NotFound();
-          }
-            var countryInformation = await _context.tb_Country.FindAsync(id);
-
-            if (countryInformation == null)
+            if (_context.tb_OpeningHours == null)
             {
                 return NotFound();
             }
 
-            return countryInformation;
+            return await _context.tb_OpeningHours.ToListAsync();
         }
 
-        // PUT: api/Sessions/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCountryInformation(int id, CountryInformation countryInformation)
+        [HttpPost]
+        [Route("PostOpeningHours")]
+        public async Task<ActionResult<OpeningHours>> PostOpeningHours(OpeningHours openingHours)
         {
-            if (id != countryInformation.CountryID)
+            if (_context.tb_OpeningHours == null)
             {
-                return BadRequest();
+                return Problem("Entity set 'AppDbContext.tb_OpeningHours'  is null.");
             }
+            _context.tb_OpeningHours.Add(openingHours);
+            await _context.SaveChangesAsync();
 
-            _context.Entry(countryInformation).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CountryInformationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return CreatedAtAction("GetOpeningHours", new { id = openingHours.Id }, openingHours);
         }
+
 
         // POST: api/Sessions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -153,9 +131,5 @@ namespace SportsBookings.Controllers
             return NoContent();
         }
 
-        private bool CountryInformationExists(int id)
-        {
-            return (_context.tb_Country?.Any(e => e.CountryID == id)).GetValueOrDefault();
-        }
     }
 }

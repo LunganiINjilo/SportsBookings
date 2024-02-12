@@ -27,5 +27,7 @@ namespace SportsBookings.Models
         public DbSet<CourtInformation> tb_Court { get; set; }
 
         public DbSet<ScheduleInformation> tb_Schedule { get; set; }
+
+        public DbSet<OpeningHours> tb_OpeningHours { get; set; }
     }
 }
