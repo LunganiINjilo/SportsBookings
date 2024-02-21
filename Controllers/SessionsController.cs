@@ -20,15 +20,26 @@ namespace SportsBookings.Controllers
             _context = context;
         }
 
+        [HttpPost]
+        [Route("ClubManagerInformation")]
+        public ActionResult<ClubManagerInformation> GetClubManagerInformation([FromUri] string email)
+        {
+            if (_context.tb_ClubManager == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_context.tb_ClubManager.Where(x => x.Email == email));
+        }
         // GET: api/Sessions
         [HttpGet]
         [Route("CountryInformation")]
         public async Task<ActionResult<IEnumerable<CountryInformation>>> GetCountryInformation()
         {
-          if (_context.tb_Country == null)
-          {
-              return NotFound();
-          }
+            if (_context.tb_Country == null)
+            {
+                return NotFound();
+            }
             return await _context.tb_Country.ToListAsync();
         }
 
@@ -101,10 +112,10 @@ namespace SportsBookings.Controllers
         [HttpPost]
         public async Task<ActionResult<CountryInformation>> PostCountryInformation(CountryInformation countryInformation)
         {
-          if (_context.tb_Country == null)
-          {
-              return Problem("Entity set 'AppDbContext.tb_Country'  is null.");
-          }
+            if (_context.tb_Country == null)
+            {
+                return Problem("Entity set 'AppDbContext.tb_Country'  is null.");
+            }
             _context.tb_Country.Add(countryInformation);
             await _context.SaveChangesAsync();
 
