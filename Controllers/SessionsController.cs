@@ -22,7 +22,7 @@ namespace SportsBookings.Controllers
 
         [HttpPost]
         [Route("ClubManagerInformation")]
-        public ActionResult<ClubManagerInformation> GetClubManagerInformation([FromUri] string email)
+        public ActionResult<ClubManagerInformation> GetClubManagerInformation([FromBody] string email)
         {
             if (_context.tb_ClubManager == null)
             {
