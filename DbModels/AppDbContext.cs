@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SportsBookings.Models;
 
-namespace SportsBookings.Models
+namespace SportsBookings.DbModels
 {
     public class AppDbContext : DbContext
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SportsBookings.Models
+namespace SportsBookings.DbModels
 {
     public class ClubInformation
     {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SportsBookings.Managers;
-using SportsBookings.Models;
+using SportsBookings.DbModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IRegistrationManager, RegistrationManager>();
+builder.Services.AddScoped<ISessionManager, SessionManager>();
 
 var app = builder.Build();
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SportsBookings.Models
+namespace SportsBookings.DbModels
 {
     public class ScheduleInformation
     {
