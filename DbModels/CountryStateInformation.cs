@@ -14,7 +14,7 @@ namespace SportsBookings.Models
         [Required]
         public string? StateCode { get; set; }
 
-        [ForeignKey("countryInformation"), Column(Order = 1)]
+        [ForeignKey("countryInformation")]
         public int CountryID { get; set; }
 
         public CountryInformation? countryInformation { get; set; }

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SportsBookings.Managers;
 using SportsBookings.DbModels;
+using SportsBookings.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +16,13 @@ builder.Services.AddSingleton<IRegistrationManager, RegistrationManager>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
 
 var app = builder.Build();
+
+// Configure CORS
+app.UseCors(builder => builder
+    .WithOrigins("http://localhost:8100") // Update with the origin of your frontend application
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()); // Allow credentials if your frontend application sends cookies or other credentials
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
