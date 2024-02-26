@@ -1,5 +1,6 @@
 ﻿using SportsBookings.Models;
 using SportsBookings.DbModels;
+using System.Xml.Linq;
 
 namespace SportsBookings.Managers
 {
@@ -18,7 +19,8 @@ namespace SportsBookings.Managers
             var session = new SessionData
             {
                 ManagerID = managerId,
-                ClubInfo = GetClubInfo(managerId)
+                ClubInfo = GetClubInfo(managerId),
+                Amenities= GetAmenities(managerId),
             };
             return await Task.FromResult(session);
         }
@@ -39,6 +41,23 @@ namespace SportsBookings.Managers
                         };
 
             var result = query.ToList();
+
+            return result;
+        }
+
+        private List<Amenities> GetAmenities(int managerId)
+        {
+            var result = _context.tb_Facilities
+            .Join(_context.tb_FacilitiesMap,facility => facility.Id, 
+            map => map.FacilityId,
+                (facility, map) => new { Facility = facility, Map = map })
+            .Join(_context.tb_ClubManagerMap,
+                 combined => combined.Map.ClubID,
+                clubMap => clubMap.ClubID,
+                (combined, clubMap) => new { combined.Facility, ClubMap = clubMap })
+            .Where(x => x.ClubMap.ManagerId == managerId)
+            .Select(x => new Amenities { ClubID = x.ClubMap.ClubID, Name = x.Facility.Name })
+            .ToList();
 
             return result;
         }
